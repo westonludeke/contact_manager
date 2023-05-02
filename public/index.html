@@ -7,11 +7,45 @@
   <title>Contact Manager</title>
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/handlebars.js"></script>
+<style>
+  #new-contact-form {
+    display: none
+  }
+</style>
 </head>
 <body>
   <header>
     <h1>Contact Manager</h1>
   </header>
-  <button>Add Contact</button>
+   <div>
+    <button id="add-contact-button">Add Contact</button>
+    <br><br>
+    <form>
+      <input type="text" id="search" name="search" placeholder="Search">
+    </form>
+  </div>
+  <br>
+  <div id="new-contact-form">
+    <form>
+      <label for="full-name">Full Name:</label>
+      <input type="text" id="full-name" name="full-name">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+<script>
+$(document).ready(function() {
+  // hide the new contact form initially
+  $('#new-contact-form').hide();
+  
+  // add click event listener to the Add Contact button
+  $('#add-contact-button').click(function() {
+    // show the new contact form
+    $('#new-contact-form').show();
+  });
+});  
+</script>
 </body>
 </html>
+
+
