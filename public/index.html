@@ -36,7 +36,7 @@
   <header>
     <h1>Contact Manager</h1>
   </header>
-   <div>
+   <div id="main-container">
     <button id="add-contact-button">Add Contact</button>
     <br><br>
     <form>
@@ -80,6 +80,8 @@ $(document).ready(function() {
   
   // add click event listener to the Add Contact button
   $('#add-contact-button').click(function() {
+    // hide the main container
+    $('#main-container').hide();
     // show the new contact form
     $('#new-contact-form').show();
   });
