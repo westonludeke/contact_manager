@@ -59,6 +59,7 @@
       <br>
       <div id="tag-container"></div>
       <input type="text" id="new-tag" name="new-tag" placeholder="Add new tag">
+      <button type="button" id="new-tag">Add</button>
       <br><br>
       <button type="submit">Submit</button>
       <button type="button" id="cancel">Cancel</button>
@@ -72,9 +73,9 @@ $(document).ready(function() {
   // array of existing tags
   var tags = ['marketing', 'sales', 'engineering', 'operations'];
   
-  // display existing tags as buttons
+   // display existing tags as buttons
   for (var i = 0; i < tags.length; i++) {
-    var tagButton = $('<button>').addClass('tag').text(tags[i]);
+    var tagButton = $('<button>').attr('type', 'button').addClass('tag').text(tags[i]);
     $('#tag-container').append(tagButton);
   }
   
