@@ -61,7 +61,7 @@
       <input type="text" id="new-tag" name="new-tag" placeholder="Add new tag">
       <br><br>
       <button type="submit">Submit</button>
-      <button type="button">Cancel</button>
+      <button type="button" id="cancel">Cancel</button>
     </form>
   </div>
 <script>
@@ -90,7 +90,19 @@ $(document).ready(function() {
   $('.tag').click(function() {
     $(this).toggleClass('selected');
   });
+
+   // add click event listener to Cancel button
+  $('#cancel').click(function() {
+    // hide the new contact form
+    $('#new-contact-form').hide();
+    // show the main container
+    $('#main-container').show();
+  });
 });  
 </script>
 </body>
 </html>
+
+
+
+
