@@ -11,25 +11,6 @@
   #new-contact-form {
     display: none
   }
-  
-  .tag {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 16px;
-    margin: 4px;
-    cursor: pointer;
-    border: none;
-    border-radius: 16px;
-    text-align: center;
-  }
-  
-  .tag.selected {
-    background-color: #f44336;
-  }
-  
-  .tag:focus {
-    outline: none;
-  }
 </style>
 </head>
 <body>
@@ -45,7 +26,7 @@
   </div>
   <br>
   <div id="new-contact-form">
-    <form>
+    <form id="contact-form">
       <label for="full-name">Full Name:</label>
       <input type="text" id="full-name" name="full-name">
       <br><br>
@@ -54,12 +35,6 @@
       <br><br>
       <label for="telephone-number">Telephone Number:</label>
       <input type="tel" id="telephone-number" name="telephone-number">
-      <br><br>
-      <label for="tags">Select Tags:</label>
-      <br>
-      <div id="tag-container"></div>
-      <input type="text" id="new-tag-input" name="new-tag" placeholder="Add new tag">
-      <button type="button" id="add-new-tag-button">Add</button>
       <br><br>
       <button type="submit">Submit</button>
       <button type="button" id="cancel">Cancel</button>
@@ -87,31 +62,41 @@ $(document).ready(function() {
     $('#main-container').show();
   });
 
-    // add click event listener to Add button
-  $('#add-new-tag-button').click(function() {
-    var newTag = $('#new-tag-input').val();
-    if (newTag !== '') {
-      var tagButton = $('<button>').attr('type', 'button').addClass('tag').text(newTag);
-      $('#tag-container').append(tagButton);
-      $('#new-tag-input').val('');
-    }
-  });
+  // add submit event listener to the contact form
+  $('#new-contact-form form').submit(function(event) {
+    event.preventDefault(); // prevent default form submit behavior
 
-  // add click event listener to new tag button
-  $('#new-tag-button').click(function() {
-    // get the new tag value from the input field
-    var newTag = $('#new-tag').val();
-    // create a new tag button and append it to the tag container
-    var tagButton = $('<button>').addClass('tag').text(newTag).attr('type', 'button');
-    $('#tag-container').append(tagButton);
-    // add click event listener to the new tag button
-    tagButton.click(function() {
-      $(this).toggleClass('selected');
+    // get form data
+    var formData = {
+      full_name: $('#full-name').val(),
+      email: $('#email-address').val(),
+      phone_number: $('#telephone-number').val()
+    };
+
+    // make AJAX POST request to server
+    $.ajax({
+      method: 'POST',
+      url: 'http://localhost:3000/api/contacts/',
+      data: formData,
+      success: function(response) {
+        alert('Successfully added new contact!');
+        // hide the new contact form
+        $('#new-contact-form').hide();
+        // show the main container
+        $('#main-container').show();
+        // reset the form
+        $('#new-contact-form form')[0].reset();
+      },
+      error: function(xhr, status, error) {
+        alert('Error adding new contact :(');
+        console.log('Error:', error);
+      }
     });
-    // clear the input field value
-    $('#new-tag').val('');
   });
 });
 </script>
 </body>
 </html>
+
+
+

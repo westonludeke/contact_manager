@@ -26,5 +26,33 @@
     "email": null,
     "tags": "work",
     "id": 4
+  },
+  {
+    "full_name": "Bob Smith",
+    "phone_number": "555-555-5555",
+    "email": "bob@smith.com",
+    "tags": null,
+    "id": 5
+  },
+  {
+    "full_name": "Snoop Dogg",
+    "phone_number": "555-555-5555",
+    "email": "snoop@deathrow.com",
+    "tags": null,
+    "id": 6
+  },
+  {
+    "full_name": "Tupac",
+    "phone_number": "555",
+    "email": "tupac@deathrow.com",
+    "tags": null,
+    "id": 7
+  },
+  {
+    "full_name": "Suge Knight",
+    "phone_number": "666-666-6666",
+    "email": "suge@lacountyjail.bop",
+    "tags": null,
+    "id": 8
   }
 ]
