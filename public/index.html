@@ -55,30 +55,50 @@
       <label for="telephone-number">Telephone Number:</label>
       <input type="tel" id="telephone-number" name="telephone-number">
       <br><br>
-      <label for="tags">Tags:</label>
+      <label for="tags">Select Tags:</label>
       <br>
       <div id="tag-container"></div>
-      <input type="text" id="new-tag" name="new-tag" placeholder="Add new tag">
-      <button type="button" id="new-tag">Add</button>
+      <input type="text" id="new-tag-input" name="new-tag" placeholder="Add new tag">
+      <button type="button" id="add-new-tag-button">Add</button>
       <br><br>
       <button type="submit">Submit</button>
       <button type="button" id="cancel">Cancel</button>
     </form>
   </div>
 <script>
+
 $(document).ready(function() {
   // hide the new contact form initially
   $('#new-contact-form').hide();
-  
-  // array of existing tags
-  var tags = ['marketing', 'sales', 'engineering', 'operations'];
-  
-   // display existing tags as buttons
-  for (var i = 0; i < tags.length; i++) {
-    var tagButton = $('<button>').attr('type', 'button').addClass('tag').text(tags[i]);
-    $('#tag-container').append(tagButton);
-  }
-  
+
+  // retrieve existing tags from server
+  $.get('/api/contacts', function(data) {
+    var tags = {};
+    for (var i = 0; i < data.length; i++) {
+      var contactTags = data[i].tags;
+      if (contactTags) {
+        var contactTagsArray = contactTags.split(',');
+        for (var j = 0; j < contactTagsArray.length; j++) {
+          var tag = contactTagsArray[j].trim();
+          if (tag !== '') {
+            tags[tag] = true;
+          }
+        }
+      }
+    }
+
+    // display existing tags as buttons
+    for (var tag in tags) {
+      var tagButton = $('<button>').attr('type', 'button').addClass('tag').text(tag);
+      $('#tag-container').append(tagButton);
+    }
+
+    // add click event listener to tag buttons
+    $('.tag').click(function() {
+      $(this).toggleClass('selected');
+    });
+  });
+
   // add click event listener to the Add Contact button
   $('#add-contact-button').click(function() {
     // hide the main container
@@ -86,20 +106,43 @@ $(document).ready(function() {
     // show the new contact form
     $('#new-contact-form').show();
   });
-  
-  // add click event listener to tag buttons
-  $('.tag').click(function() {
-    $(this).toggleClass('selected');
-  });
 
-   // add click event listener to Cancel button
+  // add click event listener to Cancel button
   $('#cancel').click(function() {
     // hide the new contact form
     $('#new-contact-form').hide();
     // show the main container
     $('#main-container').show();
   });
-});  
+
+    // add click event listener to Add button
+  $('#add-new-tag-button').click(function() {
+    var newTag = $('#new-tag-input').val();
+    if (newTag !== '') {
+      var tagButton = $('<button>').attr('type', 'button').addClass('tag').text(newTag);
+      $('#tag-container').append(tagButton);
+      $('#new-tag-input').val('');
+    }
+  });
+
+  // add click event listener to new tag button
+  $('#new-tag-button').click(function() {
+    // get the new tag value from the input field
+    var newTag = $('#new-tag').val();
+    // create a new tag button and append it to the tag container
+    var tagButton = $('<button>').addClass('tag').text(newTag).attr('type', 'button');
+    $('#tag-container').append(tagButton);
+    // add click event listener to the new tag button
+    tagButton.click(function() {
+      $(this).toggleClass('selected');
+    });
+    // clear the input field value
+    $('#new-tag').val('');
+  });
+
+});
+
+
 </script>
 </body>
 </html>
