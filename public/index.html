@@ -20,6 +20,8 @@
    <div id="main-container">
     <button id="add-contact-button">Add Contact</button>
     <br><br>
+    <button id="view-contacts-button">View Contacts</button>
+    <br><br>
     <form>
       <input type="text" id="search" name="search" placeholder="Search">
     </form>
@@ -40,11 +42,27 @@
       <button type="button" id="cancel">Cancel</button>
     </form>
   </div>
+  <div id="all-contacts-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- table rows will be added here dynamically using JavaScript -->
+      </tbody>
+    </table>
+    <br><br>
+    <button type="button" id="home">Home</button>
+  </div>
 <script>
 
 $(document).ready(function() {
-  // hide the new contact form initially
-  $('#new-contact-form').hide();
+  // hide the new contact form and contacts table initially
+  $('#new-contact-form, #all-contacts-table').hide();
 
   // add click event listener to the Add Contact button
   $('#add-contact-button').click(function() {
@@ -54,10 +72,26 @@ $(document).ready(function() {
     $('#new-contact-form').show();
   });
 
+  // add click event listener to the View Contacts button
+  $('#view-contacts-button').click(function() {
+    // hide the main container
+    $('#main-container').hide();
+    // show the new contact form
+    $('#all-contacts-table').show();
+  });
+
   // add click event listener to Cancel button
   $('#cancel').click(function() {
     // hide the new contact form
     $('#new-contact-form').hide();
+    // show the main container
+    $('#main-container').show();
+  });
+
+  // add click event listener to Home button
+  $('#home').click(function() {
+    // hide the new contact form
+    $('#all-contacts-table').hide();
     // show the main container
     $('#main-container').show();
   });
