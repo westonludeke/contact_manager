@@ -52,6 +52,7 @@
           <th>Name</th>
           <th>Phone</th>
           <th>Email</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -96,6 +97,10 @@ $(document).ready(function() {
         $('<td></td>').text(contact.full_name).appendTo(row);
         $('<td></td>').text(contact.phone_number).appendTo(row);
         $('<td></td>').text(contact.email).appendTo(row);
+
+        // add edit and delete buttons to the Edit column
+        $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact">Delete</button>').appendTo(row);
+
         $('#all-contacts-table tbody').append(row);
       });
     });
