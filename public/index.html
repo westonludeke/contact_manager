@@ -76,21 +76,13 @@ $(document).ready(function() {
     $('#new-contact-form').show();
   });
 
-  // add click event listener to the View Contacts button
-  $('#view-contacts-button').click(function() {
-    // hide the main container
-    $('#main-container').hide();
-    // show the contacts table
-    $('#all-contacts-table').show();
-
-    // check if the table already contains data
-    if ($('#all-contacts-table tbody tr').length > 0) {
-      // if it does, remove the existing rows
-      $('#all-contacts-table tbody tr').remove();
-    }
-
+  // function to fetch contacts from server and update table
+  function fetchContacts() {
     // make a GET request to the API endpoint
     $.get('http://localhost:3000/api/contacts', function(response) {
+      // remove existing rows from table
+      $('#all-contacts-table tbody tr').remove();
+
       // loop through the contacts in the response and add them to the table
       response.forEach(function(contact) {
         var row = $('<tr></tr>');
@@ -112,6 +104,7 @@ $(document).ready(function() {
         $.ajax({
           method: 'DELETE',
           url: 'http://localhost:3000/api/contacts/' + contactId,
+          context: this, // save reference to clicked element
           success: function(response) {
             alert('Successfully deleted contact!');
             // remove the row from the table
@@ -124,7 +117,22 @@ $(document).ready(function() {
         });
       });
     });
+  }
+
+  // call the fetchContacts function initially to display all contacts on the table
+  fetchContacts();
+
+  // add click event listener to the View Contacts button
+  $('#view-contacts-button').click(function() {
+    // hide the main container
+    $('#main-container').hide();
+    // show the contacts table
+    $('#all-contacts-table').show();
+
+    // fetch contacts and update table
+    fetchContacts();
   });
+
 
   // add click event listener to Cancel button
   $('#cancel').click(function() {
