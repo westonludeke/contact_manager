@@ -11,6 +11,9 @@
   #new-contact-form {
     display: none
   }
+  table,th,td {
+    border: 1px solid black;
+  }
 </style>
 </head>
 <body>
@@ -56,7 +59,7 @@
       </tbody>
     </table>
     <br><br>
-    <button type="button" id="home">Home</button>
+    <button type="button" id="home-button">Home</button>
   </div>
 <script>
 
@@ -76,8 +79,26 @@ $(document).ready(function() {
   $('#view-contacts-button').click(function() {
     // hide the main container
     $('#main-container').hide();
-    // show the new contact form
+    // show the contacts table
     $('#all-contacts-table').show();
+
+    // check if the table already contains data
+    if ($('#all-contacts-table tbody tr').length > 0) {
+      // if it does, remove the existing rows
+      $('#all-contacts-table tbody tr').remove();
+    }
+
+    // make a GET request to the API endpoint
+    $.get('http://localhost:3000/api/contacts', function(response) {
+      // loop through the contacts in the response and add them to the table
+      response.forEach(function(contact) {
+        var row = $('<tr></tr>');
+        $('<td></td>').text(contact.full_name).appendTo(row);
+        $('<td></td>').text(contact.phone_number).appendTo(row);
+        $('<td></td>').text(contact.email).appendTo(row);
+        $('#all-contacts-table tbody').append(row);
+      });
+    });
   });
 
   // add click event listener to Cancel button
@@ -89,7 +110,7 @@ $(document).ready(function() {
   });
 
   // add click event listener to Home button
-  $('#home').click(function() {
+  $('#home-button').click(function() {
     // hide the new contact form
     $('#all-contacts-table').hide();
     // show the main container
