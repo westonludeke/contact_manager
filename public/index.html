@@ -99,9 +99,29 @@ $(document).ready(function() {
         $('<td></td>').text(contact.email).appendTo(row);
 
         // add edit and delete buttons to the Edit column
-        $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact">Delete</button>').appendTo(row);
+        $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' + contact.id + '">Delete</button>').appendTo(row);
 
         $('#all-contacts-table tbody').append(row);
+      });
+
+      // add click event listener to each delete button
+      $('.delete-contact').click(function() {
+        // get the id of the contact to be deleted
+        var contactId = $(this).data('id');
+        // make a DELETE request to the server to delete the contact
+        $.ajax({
+          method: 'DELETE',
+          url: 'http://localhost:3000/api/contacts/' + contactId,
+          success: function(response) {
+            alert('Successfully deleted contact!');
+            // remove the row from the table
+            $(this).closest('tr').remove();
+          },
+          error: function(xhr, status, error) {
+            alert('Error deleting contact :(');
+            console.log('Error:', error);
+          }
+        });
       });
     });
   });

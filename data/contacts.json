@@ -21,13 +21,6 @@
     "tags": null
   },
   {
-    "full_name": "Weston",
-    "phone_number": null,
-    "email": null,
-    "tags": "work",
-    "id": 4
-  },
-  {
     "full_name": "Bob Smith",
     "phone_number": "555-555-5555",
     "email": "bob@smith.com",
@@ -42,13 +35,6 @@
     "id": 6
   },
   {
-    "full_name": "Tupac",
-    "phone_number": "555",
-    "email": "tupac@deathrow.com",
-    "tags": null,
-    "id": 7
-  },
-  {
     "full_name": "Suge Knight",
     "phone_number": "666-666-6666",
     "email": "suge@lacountyjail.bop",
@@ -61,12 +47,5 @@
     "email": "daz@dpgrecords.com",
     "tags": null,
     "id": 9
-  },
-  {
-    "full_name": "Too $hort",
-    "phone_number": "555-555-5555",
-    "email": "2@short.com",
-    "tags": null,
-    "id": 10
   }
 ]
