@@ -113,17 +113,7 @@ $(document).ready(function() {
   $('#add-contact-button').click(() => $('#main-container').hide() && $('#new-contact-form').show());
 
   function createTagLinks(tags) {
-    if (!tags) {
-      return [];
-    }
-    let tagArr = tags.split(',');
-    let tagLinks = tagArr.map(tag => {
-      let link = $('<a></a>');
-      link.text(tag.trim());
-      link.attr('href', '#');
-      return link;
-    });
-    return tagLinks;
+    return tags ? tags.split(',').map(tag => $('<a></a>').text(tag.trim()).attr('href', '#')) : [];
   }
 
   // function to fetch contacts from server and update table
