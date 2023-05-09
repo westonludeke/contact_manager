@@ -252,56 +252,35 @@ $(document).ready(function() {
 
   $('#search-form').submit(function(event) {
     event.preventDefault();
-    let searchTerm = $('#search-input').val().trim().toLowerCase();
+    const searchTerm = $('#search-input').val().trim().toLowerCase();
 
-    $.ajax({
-      url: '/api/contacts',
-      type: 'GET',
-      success: function(response) {
-        let filteredContacts = response.filter(function(contact) {
-          let fullName = contact.full_name.toLowerCase();
-          let email = contact.email.toLowerCase();
-          let phoneNumber = contact.phone_number.toLowerCase();
-          let tags = contact.tags ? contact.tags.toLowerCase() : '';
-
-          return fullName.includes(searchTerm) ||
-            email.includes(searchTerm) ||
-            phoneNumber.includes(searchTerm) ||
-            tags.includes(searchTerm);
-        });
+    $.get('/api/contacts', function(response) {
+        const filteredContacts = response.filter(contact => ['full_name', 'email', 'phone_number', 'tags'].some(field => contact[field].toLowerCase().includes(searchTerm)));
 
         $('#all-contacts-table').hide();
         $('#search-results-table').show();
 
-        let searchTableBody = $('#search-results-table tbody');
+        const searchTableBody = $('#search-results-table tbody');
         searchTableBody.empty();
 
-        filteredContacts.forEach(function(contact) {
-          let row = $('<tr></tr>');
-          $('<td></td>').text(contact.full_name).appendTo(row);
-          $('<td></td>').text(contact.phone_number).appendTo(row);
-          $('<td></td>').text(contact.email).appendTo(row);
+        filteredContacts.forEach(contact => {
+            const row = $('<tr></tr>');
+            $('<td></td>').text(contact.full_name).appendTo(row);
+            $('<td></td>').text(contact.phone_number).appendTo(row);
+            $('<td></td>').text(contact.email).appendTo(row);
 
-          let tagSpan = $('<span></span>');
-          let tagLinks = createTagLinks(contact.tags);
-          tagLinks.forEach(function(link, index) {
-            if (index > 0) {
-              $('<span>, </span>').appendTo(tagSpan);
-            }
-            tagSpan.append(link);
-          });
-          $('<td></td>').append(tagSpan).appendTo(row);
+            const tagSpan = $('<span></span>');
+            createTagLinks(contact.tags).forEach((link, index) => {
+                if (index > 0) $('<span>, </span>').appendTo(tagSpan);
+                tagSpan.append(link);
+            });
+            $('<td></td>').append(tagSpan).appendTo(row);
 
-          $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' +
-            contact.id + '">Delete</button>').appendTo(row);
+            $('<td></td>').html(`<button class="edit-contact" data-id="${contact.id}">Edit</button> <button class="delete-contact" data-id="${contact.id}">Delete</button>`).appendTo(row);
 
-          searchTableBody.append(row);
+            searchTableBody.append(row);
         });
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        console.log('Error fetching contacts: ' + textStatus + ', ' + errorThrown);
-      }
-    });
+    }).fail(jqXHR => console.log(`Error fetching contacts: ${jqXHR.statusText}`));
   });
 });
 </script>
