@@ -67,7 +67,8 @@
           <th>Name</th>
           <th>Phone</th>
           <th>Email</th>
-          <th></th>
+          <th>Tags</th>
+          <th>Update</th>
         </tr>
       </thead>
       <tbody>
@@ -104,6 +105,16 @@ $(document).ready(function() {
         $('<td></td>').text(contact.full_name).appendTo(row);
         $('<td></td>').text(contact.phone_number).appendTo(row);
         $('<td></td>').text(contact.email).appendTo(row);
+
+        // create a select element for tags
+        var tagSelect = $('<select></select>');
+        // loop through the tags and add each as an option to the select element
+        let tagsArr = contact.tags ? contact.tags.split(',') : [];
+        tagsArr.forEach(function(tag) {
+          $('<option></option>').text(tag).appendTo(tagSelect);
+        });
+        // add the select element to the row
+        $('<td></td>').append(tagSelect).appendTo(row);
 
         // add edit and delete buttons to the Edit column
         $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' + contact.id + '">Delete</button>').appendTo(row);
@@ -237,8 +248,6 @@ $(document).ready(function() {
 
     // get the contact id from the hidden input field
     var contactId = $('#edit-contact-form input[type=hidden]').val();
-
-    console.log('contactId: ', contactId);
 
     // get form data
     var formData = {
