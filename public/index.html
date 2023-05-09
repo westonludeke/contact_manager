@@ -31,6 +31,7 @@
   </div>
   <br>
   <div id="new-contact-form">
+    <h2>Add a New Contact:</h2>
     <form>
       <label for="full-name">Full Name:</label>
       <input type="text" id="full-name" name="full-name">
@@ -40,12 +41,16 @@
       <br><br>
       <label for="telephone-number">Telephone Number:</label>
       <input type="tel" id="telephone-number" name="telephone-number">
+      <br><br>
+      <label for="tags">Tags:</label>
+      <input type="text" id="tags" name="tags">
       <br><br>
       <button type="submit">Submit</button>
       <button type="button" id="cancel-new-contact">Cancel</button>
     </form>
   </div>
   <div id="edit-contact-form">
+    <h2>Edit Contact:</h2>
     <form>
       <label for="full-name">Full Name:</label>
       <input type="text" id="full-name" name="full-name">
@@ -56,11 +61,15 @@
       <label for="telephone-number">Telephone Number:</label>
       <input type="tel" id="telephone-number" name="telephone-number">
       <br><br>
+      <label for="tags">Tags:</label>
+      <input type="text" id="tags" name="tags">
+      <br><br>
       <button type="submit" id="update-edit-contact">Update</button>
       <button type="button" id="cancel-edit-contact">Cancel</button>
     </form>
   </div>
   <div id="all-contacts-table">
+    <h2>Contact List:</h2>
     <table>
       <thead>
         <tr>
@@ -105,16 +114,17 @@ $(document).ready(function() {
         $('<td></td>').text(contact.full_name).appendTo(row);
         $('<td></td>').text(contact.phone_number).appendTo(row);
         $('<td></td>').text(contact.email).appendTo(row);
+        $('<td></td>').text(contact.tags).appendTo(row);
 
-        // create a select element for tags
-        var tagSelect = $('<select></select>');
-        // loop through the tags and add each as an option to the select element
-        let tagsArr = contact.tags ? contact.tags.split(',') : [];
-        tagsArr.forEach(function(tag) {
-          $('<option></option>').text(tag).appendTo(tagSelect);
-        });
-        // add the select element to the row
-        $('<td></td>').append(tagSelect).appendTo(row);
+        // // create a select element for tags
+        // var tagSelect = $('<select></select>');
+        // // loop through the tags and add each as an option to the select element
+        // let tagsArr = contact.tags ? contact.tags.split(',') : [];
+        // tagsArr.forEach(function(tag) {
+        //   $('<option></option>').text(tag).appendTo(tagSelect);
+        // });
+        // // add the select element to the row
+        // $('<td></td>').append(tagSelect).appendTo(row);
 
         // add edit and delete buttons to the Edit column
         $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' + contact.id + '">Delete</button>').appendTo(row);
@@ -157,6 +167,7 @@ $(document).ready(function() {
           $('#edit-contact-form #full-name').val(response.full_name);
           $('#edit-contact-form #telephone-number').val(response.phone_number);
           $('#edit-contact-form #email-address').val(response.email);
+          $('#edit-contact-form #tags').val(response.tags);
 
           // add a new input field for the contact id
           $('<input>').attr({
@@ -218,7 +229,8 @@ $(document).ready(function() {
     var formData = {
       full_name: $('#full-name').val(),
       email: $('#email-address').val(),
-      phone_number: $('#telephone-number').val()
+      phone_number: $('#telephone-number').val(),
+      tags: $('#tags').val()
     };
 
     // make AJAX POST request to server
@@ -253,7 +265,8 @@ $(document).ready(function() {
     var formData = {
       full_name: $('#edit-contact-form #full-name').val(),
       email: $('#edit-contact-form #email-address').val(),
-      phone_number: $('#edit-contact-form #telephone-number').val()
+      phone_number: $('#edit-contact-form #telephone-number').val(),
+      tags: $('#edit-contact-form #tags').val()
     };
 
     // make AJAX PUT request to server to update the contact
