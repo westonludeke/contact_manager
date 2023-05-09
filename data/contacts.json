@@ -4,48 +4,41 @@
     "full_name": "Weston Ludeke",
     "email": "weston@example.com",
     "phone_number": "713-555-5555",
-    "tags": "student,programmer"
+    "tags": "student,coder"
   },
   {
     "id": 2,
     "full_name": "Joe Blow",
     "email": "vpr@example.com",
     "phone_number": "09876543210",
-    "tags": "work,friend"
+    "tags": "work,amigo"
   },
   {
     "id": 3,
     "full_name": "Pete Hanson",
     "email": "pete@launchschool.com",
     "phone_number": "54321098761",
-    "tags": "TA"
+    "tags": "TA, Launch School"
   },
   {
     "full_name": "Bob Smith",
     "phone_number": "555-555-5555",
     "email": "bob@smith.org",
-    "tags": null,
+    "tags": "neighbor, work",
     "id": 5
   },
   {
     "full_name": "Biggie Smalls",
     "phone_number": "555-555-5555",
     "email": "biggie@badboy.com",
-    "tags": null,
+    "tags": "",
     "id": 10
   },
   {
     "full_name": "Tupac Shakur",
-    "phone_number": "213-555-5555",
+    "phone_number": "555-213-4431",
     "email": "tupac@makaveli.com",
-    "tags": null,
+    "tags": "musician, poet, actor",
     "id": 11
-  },
-  {
-    "full_name": "Weston Ludeke",
-    "phone_number": "713-555-5555",
-    "email": "weston@example.com",
-    "tags": "student,programmer",
-    "id": 12
   }
 ]

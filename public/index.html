@@ -25,8 +25,9 @@
     <br><br>
     <button id="view-contacts-button">View Contacts</button>
     <br><br>
-    <form>
-      <input type="text" id="search" name="search" placeholder="Search">
+    <form id="search-form">
+      <input type="text" id="search-input" name="search" placeholder="search">
+      <button type="submit" id="search-button">Search</button>
     </form>
   </div>
   <br>
@@ -86,11 +87,30 @@
     <br><br>
     <button type="button" id="home-button">Home</button>
   </div>
+  <div id="search-results-table" style="display:none">
+    <h2>Search Results:</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Tags</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <br><br>
+    <button type="button" id="search-results-home-button">Home</button>
+    <button type="button" id="view-all-contacts-button">View All Contacts</button>
+  </div>
 <script>
 
 $(document).ready(function() {
   // hide the new contact form and contacts table initially
-  $('#new-contact-form, #all-contacts-table, #edit-contact-form').hide();
+  $('#new-contact-form, #all-contacts-table, #edit-contact-form, #search-results-table').hide();
 
   // add click event listener to the Add Contact button
   $('#add-contact-button').click(function() {
@@ -100,6 +120,20 @@ $(document).ready(function() {
     $('#new-contact-form').show();
   });
 
+  function createTagLinks(tags) {
+    if (!tags) {
+      return [];
+    }
+    let tagArr = tags.split(',');
+    let tagLinks = tagArr.map(tag => {
+      let link = $('<a></a>');
+      link.text(tag.trim());
+      link.attr('href', '#');
+      return link;
+    });
+    return tagLinks;
+  }
+
   // function to fetch contacts from server and update table
   function fetchContacts() {
     // make a GET request to the API endpoint
@@ -107,19 +141,6 @@ $(document).ready(function() {
       // remove existing rows from table
       $('#all-contacts-table tbody tr').remove();
 
-      function createTagLinks(tags) {
-        if (!tags) {
-          return [];
-        }
-        let tagArr = tags.split(',');
-        let tagLinks = tagArr.map(tag => {
-          let link = $('<a></a>');
-          link.text(tag.trim());
-          link.attr('href', '#');
-          return link;
-        });
-        return tagLinks;
-      }
 
       // loop through the contacts in the response and add them to the table
       response.forEach(function(contact) {
@@ -213,6 +234,14 @@ $(document).ready(function() {
     fetchContacts();
   });
 
+   // add click event listener to Search button on homepage
+  $('#search-button').click(function() {
+    // hide the main container
+    $('#main-container').hide();
+    // show search results table
+    $('#search-results-table').show();
+  });
+
   // add click event listener to Cancel button / add new contact
   $('#cancel-new-contact').click(function() {
     // hide the new contact form
@@ -231,10 +260,27 @@ $(document).ready(function() {
 
   // add click event listener to Home button
   $('#home-button').click(function() {
-    // hide the new contact form
+    // hide all contacts
     $('#all-contacts-table').hide();
     // show the main container
     $('#main-container').show();
+  });
+
+  // add click event listener to search results Home button
+  $("#search-results-home-button").click(function() {
+    // hide search results
+    $('#search-results-table').hide();
+    // show the main container
+    $('#main-container').show();
+  });
+
+  // When the View All Contacts button is clicked
+  $('#view-all-contacts-button').click(function() {
+    // Show the all contacts table and hide the search results table
+    $('#search-results-table').hide();
+    $('#all-contacts-table').show();
+    // fetch contacts and update table
+    fetchContacts();
   });
 
   // add submit event listener to the contact form
@@ -307,6 +353,74 @@ $(document).ready(function() {
       }
     });
   });
+
+  // When the search form is submitted
+  $('#search-form').submit(function(event) {
+    event.preventDefault();
+
+    // Get the search term from the input field
+    let searchTerm = $('#search-input').val().trim().toLowerCase();
+
+    // Fetch all contacts from the server
+    $.ajax({
+      url: '/api/contacts',
+      type: 'GET',
+      success: function(response) {
+        // Filter the contacts by the search term
+        let filteredContacts = response.filter(function(contact) {
+          let fullName = contact.full_name.toLowerCase();
+          let email = contact.email.toLowerCase();
+          let phoneNumber = contact.phone_number.toLowerCase();
+          let tags = contact.tags ? contact.tags.toLowerCase() : '';
+
+          return fullName.includes(searchTerm) ||
+            email.includes(searchTerm) ||
+            phoneNumber.includes(searchTerm) ||
+            tags.includes(searchTerm);
+        });
+
+        // Hide the all contacts table and show the search results table
+        $('#all-contacts-table').hide();
+        $('#search-results-table').show();
+
+        // Clear the search results table body
+        let searchTableBody = $('#search-results-table tbody');
+        searchTableBody.empty();
+
+        // Loop through the filtered contacts and add them to the search results table
+        filteredContacts.forEach(function(contact) {
+          let row = $('<tr></tr>');
+          $('<td></td>').text(contact.full_name).appendTo(row);
+          $('<td></td>').text(contact.phone_number).appendTo(row);
+          $('<td></td>').text(contact.email).appendTo(row);
+
+          // create a span element for tags
+          let tagSpan = $('<span></span>');
+          // add tag links to the span element
+          let tagLinks = createTagLinks(contact.tags);
+          tagLinks.forEach(function(link, index) {
+            if (index > 0) {
+              $('<span>, </span>').appendTo(tagSpan);
+            }
+            tagSpan.append(link);
+          });
+          // add the span element to the row
+          $('<td></td>').append(tagSpan).appendTo(row);
+
+          // add edit and delete buttons to the Edit column
+          $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' +
+            contact.id + '">Delete</button>').appendTo(row);
+
+          // Append the row to the search results table
+          searchTableBody.append(row);
+        });
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log('Error fetching contacts: ' + textStatus + ', ' + errorThrown);
+      }
+    });
+  });
+
 });
 </script>
 </body>
