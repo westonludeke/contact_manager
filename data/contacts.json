@@ -1,10 +1,10 @@
 [
   {
     "id": 1,
-    "full_name": "Victor Reyes",
-    "email": "vpr@example.com",
-    "phone_number": "09876543215",
-    "tags": "work,friend,teacher"
+    "full_name": "Weston Ludeke",
+    "email": "weston@example.com",
+    "phone_number": "713-555-5555",
+    "tags": "student,programmer"
   },
   {
     "id": 2,
@@ -43,7 +43,7 @@
   },
   {
     "full_name": "Weston Ludeke",
-    "phone_number": "713-555-555",
+    "phone_number": "713-555-5555",
     "email": "weston@example.com",
     "tags": "student,programmer",
     "id": 12
