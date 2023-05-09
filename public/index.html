@@ -110,11 +110,7 @@
 
 $(document).ready(function() {
   $('#new-contact-form, #all-contacts-table, #edit-contact-form, #search-results-table').hide();
-
-  $('#add-contact-button').click(function() {
-    $('#main-container').hide();
-    $('#new-contact-form').show();
-  });
+  $('#add-contact-button').click(() => $('#main-container').hide() && $('#new-contact-form').show());
 
   function createTagLinks(tags) {
     if (!tags) {
@@ -199,42 +195,14 @@ $(document).ready(function() {
 
   fetchContacts();
 
-  $('#view-contacts-button').click(function() {
-    $('#main-container').hide();
-    $('#all-contacts-table').show();
-    fetchContacts();
-  });
+  $('#view-contacts-button').click(function() {$('#main-container').hide(); $('#all-contacts-table').show(); fetchContacts();});
+  $('#search-button').click(function() { $('#main-container').hide(); }).next('#search-results-table').show();
+  $('#cancel-new-contact').click(function() {$('#new-contact-form').hide(); $('#main-container').show();});
+  $('#cancel-edit-contact').click(function() {$('#edit-contact-form').hide(); $('#all-contacts-table').show();});
+  $('#home-button').click(function() {$('#all-contacts-table').hide(); $('#main-container').show();});
+  $("#search-results-home-button").click(function() {$('#search-results-table').hide(); $('#main-container').show();});
+  $('#view-all-contacts-button').click(function() {$('#search-results-table').hide(); $('#all-contacts-table').show(); fetchContacts();});
 
-  $('#search-button').click(function() {
-    $('#main-container').hide();
-    $('#search-results-table').show();
-  });
-
-  $('#cancel-new-contact').click(function() {
-    $('#new-contact-form').hide();
-    $('#main-container').show();
-  });
-
-  $('#cancel-edit-contact').click(function() {
-    $('#edit-contact-form').hide();
-    $('#all-contacts-table').show();
-  });
-
-  $('#home-button').click(function() {
-    $('#all-contacts-table').hide();
-    $('#main-container').show();
-  });
-
-  $("#search-results-home-button").click(function() {
-    $('#search-results-table').hide();
-    $('#main-container').show();
-  });
-
-  $('#view-all-contacts-button').click(function() {
-    $('#search-results-table').hide();
-    $('#all-contacts-table').show();
-    fetchContacts();
-  });
 
   $('#new-contact-form form').submit(function(event) {
     event.preventDefault();
@@ -336,7 +304,7 @@ $(document).ready(function() {
 
           $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' +
             contact.id + '">Delete</button>').appendTo(row);
-          
+
           searchTableBody.append(row);
         });
       },
@@ -345,7 +313,6 @@ $(document).ready(function() {
       }
     });
   });
-
 });
 </script>
 </body>
