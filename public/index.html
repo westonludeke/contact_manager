@@ -116,72 +116,50 @@ $(document).ready(function() {
     return tags ? tags.split(',').map(tag => $('<a></a>').text(tag.trim()).attr('href', '#')) : [];
   }
 
-  // function to fetch contacts from server and update table
   function fetchContacts() {
     $.get('http://localhost:3000/api/contacts', function(response) {
-      // remove existing rows from table
-      $('#all-contacts-table tbody tr').remove();
-
-      response.forEach(function(contact) {
-        var row = $('<tr></tr>');
-        $('<td></td>').text(contact.full_name).appendTo(row);
-        $('<td></td>').text(contact.phone_number).appendTo(row);
-        $('<td></td>').text(contact.email).appendTo(row);
-
-        var tagSpan = $('<span></span>');
-        let tagLinks = createTagLinks(contact.tags);
-        tagLinks.forEach(function(link, index) {
-          if (index > 0) {
-            $('<span>, </span>').appendTo(tagSpan);
-          }
-          tagSpan.append(link);
+        $('#all-contacts-table tbody').empty();
+        response.forEach(contact => {
+            const tagSpan = $('<span>').append(createTagLinks(contact.tags));
+            $('<tr>').append(
+                $('<td>').text(contact.full_name),
+                $('<td>').text(contact.phone_number),
+                $('<td>').text(contact.email),
+                $('<td>').append(tagSpan),
+                $('<td>').html(`<button class="edit-contact" data-id="${contact.id}">Edit</button> <button class="delete-contact" data-id="${contact.id}">Delete</button>`)
+            ).appendTo('#all-contacts-table tbody');
         });
-        $('<td></td>').append(tagSpan).appendTo(row);
-
-        // add edit and delete buttons to the Edit column
-        $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' + contact.id + '">Delete</button>').appendTo(row);
-
-        $('#all-contacts-table tbody').append(row);
-      });
-
-      $('.delete-contact').click(function() {
-        var contactId = $(this).data('id');
-        $.ajax({
-          method: 'DELETE',
-          url: 'http://localhost:3000/api/contacts/' + contactId,
-          context: this, // save reference to clicked element
-          success: function(response) {
-            alert('Successfully deleted contact!');
-            $(this).closest('tr').remove();
-          },
-          error: function(xhr, status, error) {
-            alert('Error deleting contact :(');
-            console.log('Error:', error);
-          }
+        $('.delete-contact').click(function() {
+            const contactId = $(this).data('id');
+            $.ajax({
+                method: 'DELETE',
+                url: `http://localhost:3000/api/contacts/${contactId}`,
+                context: this,
+                success: function(response) {
+                    alert('Successfully deleted contact!');
+                    $(this).closest('tr').remove();
+                },
+                error: function(xhr, status, error) {
+                    alert('Error deleting contact :(');
+                    console.log('Error:', error);
+                }
+            });
         });
-      });
-
-      $('.edit-contact').click(function() {
-        var contactId = $(this).data('id');
-        $('#all-contacts-table').hide();
-        
-        $.get('http://localhost:3000/api/contacts/' + contactId, function(response) {
-          $('#edit-contact-form #full-name').val(response.full_name);
-          $('#edit-contact-form #telephone-number').val(response.phone_number);
-          $('#edit-contact-form #email-address').val(response.email);
-          $('#edit-contact-form #tags').val(response.tags);
-
-          $('<input>').attr({
-            type: 'hidden',
-            name: 'id',
-            value: contactId
-          }).appendTo('#edit-contact-form');
-          
-          $('#edit-contact-form').show();
+        $('.edit-contact').click(function() {
+            const contactId = $(this).data('id');
+            $('#all-contacts-table').hide();
+            $.get(`http://localhost:3000/api/contacts/${contactId}`, function(response) {
+                $('#edit-contact-form #full-name').val(response.full_name);
+                $('#edit-contact-form #telephone-number').val(response.phone_number);
+                $('#edit-contact-form #email-address').val(response.email);
+                $('#edit-contact-form #tags').val(response.tags);
+                $('<input>', { type: 'hidden', name: 'id', value: contactId }).appendTo('#edit-contact-form');
+                $('#edit-contact-form').show();
+            });
         });
-      });
     });
   }
+
 
   fetchContacts();
 
