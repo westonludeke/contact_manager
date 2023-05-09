@@ -31,7 +31,7 @@
   </div>
   <br>
   <div id="new-contact-form">
-    <form id="contact-form">
+    <form>
       <label for="full-name">Full Name:</label>
       <input type="text" id="full-name" name="full-name">
       <br><br>
@@ -42,7 +42,22 @@
       <input type="tel" id="telephone-number" name="telephone-number">
       <br><br>
       <button type="submit">Submit</button>
-      <button type="button" id="cancel">Cancel</button>
+      <button type="button" id="cancel-new-contact">Cancel</button>
+    </form>
+  </div>
+  <div id="edit-contact-form">
+    <form>
+      <label for="full-name">Full Name:</label>
+      <input type="text" id="full-name" name="full-name">
+      <br><br>
+      <label for="email-address">Email Address:</label>
+      <input type="email" id="email-address" name="email-address">
+      <br><br>
+      <label for="telephone-number">Telephone Number:</label>
+      <input type="tel" id="telephone-number" name="telephone-number">
+      <br><br>
+      <button type="submit" id="update-edit-contact">Update</button>
+      <button type="button" id="cancel-edit-contact">Cancel</button>
     </form>
   </div>
   <div id="all-contacts-table">
@@ -66,7 +81,7 @@
 
 $(document).ready(function() {
   // hide the new contact form and contacts table initially
-  $('#new-contact-form, #all-contacts-table').hide();
+  $('#new-contact-form, #all-contacts-table, #edit-contact-form').hide();
 
   // add click event listener to the Add Contact button
   $('#add-contact-button').click(function() {
@@ -116,6 +131,33 @@ $(document).ready(function() {
           }
         });
       });
+
+      // add click event listener to each edit button
+      $('.edit-contact').click(function() {
+        // get the id of the contact to be edited
+        var contactId = $(this).data('id');
+        
+        // hide the full table/list of contacts
+        $('#all-contacts-table').hide();
+        
+        // make a GET request to the server to retrieve contact details
+        $.get('http://localhost:3000/api/contacts/' + contactId, function(response) {
+          // update the values in the edit-contact-form
+          $('#edit-contact-form #full-name').val(response.full_name);
+          $('#edit-contact-form #telephone-number').val(response.phone_number);
+          $('#edit-contact-form #email-address').val(response.email);
+
+          // add a new input field for the contact id
+          $('<input>').attr({
+            type: 'hidden',
+            name: 'id',
+            value: contactId
+          }).appendTo('#edit-contact-form');
+          
+          // display the edit-contact-form
+          $('#edit-contact-form').show();
+        });
+      });
     });
   }
 
@@ -133,13 +175,20 @@ $(document).ready(function() {
     fetchContacts();
   });
 
-
-  // add click event listener to Cancel button
-  $('#cancel').click(function() {
+  // add click event listener to Cancel button / add new contact
+  $('#cancel-new-contact').click(function() {
     // hide the new contact form
     $('#new-contact-form').hide();
     // show the main container
     $('#main-container').show();
+  });
+
+  // add click event listener to Cancel button / edit existing contact
+  $('#cancel-edit-contact').click(function() {
+    // hide the new contact form
+    $('#edit-contact-form').hide();
+    // show the main container
+    $('#all-contacts-table').show();
   });
 
   // add click event listener to Home button
@@ -177,6 +226,45 @@ $(document).ready(function() {
       },
       error: function(xhr, status, error) {
         alert('Error adding new contact :(');
+        console.log('Error:', error);
+      }
+    });
+  });
+
+  // add submit event listener to the edit contact form
+  $('#edit-contact-form form').submit(function(event) {
+    event.preventDefault(); // prevent default form submit behavior
+
+    // get the contact id from the hidden input field
+    var contactId = $('#edit-contact-form input[type=hidden]').val();
+
+    console.log('contactId: ', contactId);
+
+    // get form data
+    var formData = {
+      full_name: $('#edit-contact-form #full-name').val(),
+      email: $('#edit-contact-form #email-address').val(),
+      phone_number: $('#edit-contact-form #telephone-number').val()
+    };
+
+    // make AJAX PUT request to server to update the contact
+    $.ajax({
+      method: 'PUT',
+      url: 'http://localhost:3000/api/contacts/' + contactId,
+      data: formData,
+      success: function(response) {
+        alert('Successfully updated contact!');
+        // remove the ID from the edit contact form
+        $('#edit-contact-form input[name="id"]').remove();
+        // hide the edit contact form
+        $('#edit-contact-form').hide();
+        // show the contacts table
+        $('#all-contacts-table').show();
+        // fetch contacts and update table
+        fetchContacts();
+      },
+      error: function(xhr, status, error) {
+        alert('Error updating contact :(');
         console.log('Error:', error);
       }
     });

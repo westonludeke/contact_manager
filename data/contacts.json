@@ -1,14 +1,14 @@
 [
   {
     "id": 1,
-    "full_name": "Naveed Fida",
-    "email": "nf@example.com",
-    "phone_number": "12345678901",
+    "full_name": "Victor Reyes",
+    "email": "vpr@example.com",
+    "phone_number": "09876543215",
     "tags": "work,friend"
   },
   {
     "id": 2,
-    "full_name": "Victor Reyes",
+    "full_name": "Joe Blow",
     "email": "vpr@example.com",
     "phone_number": "09876543210",
     "tags": "work,friend"
@@ -16,22 +16,29 @@
   {
     "id": 3,
     "full_name": "Pete Hanson",
-    "email": "ph@example.com",
+    "email": "pete@launchschool.com",
     "phone_number": "54321098761",
     "tags": null
   },
   {
     "full_name": "Bob Smith",
     "phone_number": "555-555-5555",
-    "email": "bob@smith.com",
+    "email": "bob@smith.org",
     "tags": null,
     "id": 5
   },
   {
-    "full_name": "Daz Dillinger",
-    "phone_number": "213-555-5555",
-    "email": "daz@dpgrecords.com",
+    "full_name": "Biggie Smalls",
+    "phone_number": "555-555-5555",
+    "email": "biggie@badboy.com",
     "tags": null,
-    "id": 9
+    "id": 10
+  },
+  {
+    "full_name": "Tupac Shakur",
+    "phone_number": "213-555-5555",
+    "email": "tupac@makaveli.com",
+    "tags": null,
+    "id": 11
   }
 ]
