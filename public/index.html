@@ -8,12 +8,125 @@
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/handlebars.js"></script>
 <style>
-  #new-contact-form {
-    display: none
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
   }
-  table,th,td {
-    border: 1px solid black;
+
+  header {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
   }
+
+  #main-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  form {
+    text-align: left;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  input[type="submit"],
+  button[type="submit"],
+  button[type="button"] {
+    padding: 10px 20px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+
+  th {
+    background-color: #2c3e50;
+    color: white;
+  }
+
+  #new-contact-form,
+  #edit-contact-form,
+  #all-contacts-table,
+  #search-results-table {
+    display: none;
+  }
+
+  #new-contact-form,
+  #edit-contact-form,
+  #all-contacts-table,
+  #search-results-table {
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  #new-contact-form h2,
+  #edit-contact-form h2,
+  #all-contacts-table h2,
+  #search-results-table h2 {
+    margin-top: 0;
+  }
+
+  #search-results-table {
+    margin-top: 40px;
+  }
+
+  #search-results-table button {
+    margin-right: 10px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    #main-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    #search-form {
+      margin-left: auto;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -113,8 +226,43 @@ $(document).ready(function() {
   $('#add-contact-button').click(() => $('#main-container').hide() && $('#new-contact-form').show());
 
   function createTagLinks(tags) {
-    return tags ? tags.split(',').map(tag => $('<a></a>').text(tag.trim()).attr('href', '#')) : [];
+    return tags
+      ? tags.split(",").map((tag) => {
+          const link = $("<a></a>")
+            .text(tag.trim())
+            .attr("href", "#");
+          link.click(function (event) {
+            event.preventDefault();
+            const searchTag = tag.trim();
+            $.get(
+              "http://localhost:3000/api/contacts?tags=" + encodeURI(searchTag),
+              function (response) {
+                const resultsTableBody = $("#search-results-table tbody");
+                resultsTableBody.empty();
+                response.forEach(function (contact) {
+                  var row = $("<tr></tr>");
+                  row.append($("<td></td>").text(contact.name));
+                  row.append($("<td></td>").text(contact.phone));
+                  row.append($("<td></td>").text(contact.email));
+                  row.append($("<td></td>").text(contact.tags));
+                  const updateButton = $("<button></button>")
+                    .text("Update")
+                    .click(function () {
+                      showEditForm(contact.id);
+                    });
+                  row.append(updateButton);
+                  resultsTableBody.append(row);
+                });
+                $("#all-contacts-table").hide();
+                $("#search-results-table").show();
+              }
+            );
+          });
+          return link[0].outerHTML;
+        })
+      : "";
   }
+
 
   // function to fetch contacts from server and update table
   function fetchContacts() {
@@ -281,6 +429,32 @@ $(document).ready(function() {
         });
     }).fail(jqXHR => console.log(`Error fetching contacts: ${jqXHR.statusText}`));
   });
+
+  $('.tag-link').on('click', function(event) {
+    // Prevent the default behavior of following the link
+    event.preventDefault();
+
+    // Retrieve the tag name from the link's data attribute
+    var tagName = $(this).data('tag');
+
+    // Perform an AJAX request to retrieve the search results for the clicked tag
+    $.ajax({
+      url: '/search',
+      method: 'GET',
+      data: {
+        tag: tagName
+      },
+      success: function(response) {
+        // Update the table to display only the search results
+        $('#all-contacts-table tbody tr').remove();
+        $('#all-contacts-table tbody').append(response);
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    });
+  });
+
 });
 </script>
 </body>

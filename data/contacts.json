@@ -45,7 +45,14 @@
     "full_name": "Bernie Sanders",
     "phone_number": "555-555-5555",
     "email": "bernie@dnc.com",
-    "tags": "independent",
+    "tags": "independent, politician",
     "id": 12
+  },
+  {
+    "full_name": "Art Vandalay",
+    "phone_number": "555-555-5555",
+    "email": "art@vandalayindustries.com",
+    "tags": "architect",
+    "id": 13
   }
 ]
