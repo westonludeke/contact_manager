@@ -146,6 +146,137 @@ h2 {
     margin-top: 20px;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  #main-container {
+    margin-top: 50px;
+  }
+
+  #search-form {
+    margin-top: 10px;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  #new-contact-form,
+  #edit-contact-form,
+  #all-contacts-table,
+  #search-results-table {
+    padding: 10px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 5px;
+  }
+
+  #new-contact-form {
+    max-width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  #main-container {
+    margin-top: 50px;
+  }
+
+  #search-form {
+    margin-top: 10px;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  #new-contact-form,
+  #edit-contact-form,
+  #all-contacts-table,
+  #search-results-table {
+    padding: 20px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  table {
+    font-size: 16px;
+  }
+
+  #new-contact-form {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  #main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 50px);
+  }
+
+  #search-form {
+    margin-top: 20px;
+  }
+
+  button {
+    margin-right: 10px;
+  }
+
+  #new-contact-form,
+  #edit-contact-form,
+  #all-contacts-table,
+  #search-results-table {
+    padding: 20px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    width: 300px;
+    margin-right: 10px;
+  }
+
+  input[type="submit"],
+  button[type="submit"],
+  button[type="button"] {
+    margin-left: 10px;
+  }
+
+  table {
+    font-size: 18px;
+  }
+
+  #new-contact-form {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 </style>
 </head>
 <body>
