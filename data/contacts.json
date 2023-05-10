@@ -40,5 +40,12 @@
     "email": "tupac@makaveli.com",
     "tags": "musician, poet, actor",
     "id": 11
+  },
+  {
+    "full_name": "Bernie Sanders",
+    "phone_number": "555-555-5555",
+    "email": "bernie@dnc.com",
+    "tags": "independent",
+    "id": 12
   }
 ]

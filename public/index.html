@@ -196,19 +196,24 @@ $(document).ready(function() {
   $('#new-contact-form form').submit(function(event) {
     event.preventDefault();
 
-    const { full_name, email, phone_number, tags } = this.elements;
+    var formData = {
+      full_name: $('#full-name').val(),
+      email: $('#email-address').val(),
+      phone_number: $('#telephone-number').val(),
+      tags: $('#tags').val()
+    };
 
     $.ajax({
       method: 'POST',
       url: 'http://localhost:3000/api/contacts/',
-      data: {
-        full_name: full_name.value,
-        email: email.value,
-        phone_number: phone_number.value,
-        tags: tags.value
+      data: formData,
+      success: function(response) {
+        alert('Successfully added new contact!');
+        $('#new-contact-form').hide();
+        $('#main-container').show();
+        $('#new-contact-form form')[0].reset();
       },
-      success: () => alert('Successfully added new contact!') && $('#new-contact-form').hide() && $('#main-container').show() && this.reset(),
-      error: (xhr, status, error) => {
+      error: function(xhr, status, error) {
         alert('Error adding new contact :(');
         console.log('Error:', error);
       }
