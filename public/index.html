@@ -120,6 +120,19 @@ h2 {
   margin-right: 10px;
 }
 
+#new-contact-form {
+  display: none;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px; /* Add this line to limit the width */
+  margin-left: auto; /* Add this line to center the form horizontally */
+  margin-right: auto; /* Add this line to center the form horizontally */
+}
+
+
 @media only screen and (min-width: 768px) {
   #main-container {
     display: flex;
@@ -236,10 +249,13 @@ $(document).ready(function() {
       ? tags.split(",").map((tag) => {
           const link = $("<a></a>")
             .text(tag.trim())
-            .attr("href", "#");
+            .attr("href", "");
           link.click(function (event) {
             event.preventDefault();
             const searchTag = tag.trim();
+            console.log('searchTag: ', searchTag);
+            $('#search-input').val(searchTag); // add tag to search form
+            $('#main-container').hide(); // hide the main container
             $.get(
               "http://localhost:3000/api/contacts?tags=" + encodeURI(searchTag),
               function (response) {
@@ -260,7 +276,7 @@ $(document).ready(function() {
                   resultsTableBody.append(row);
                 });
                 $("#all-contacts-table").hide();
-                $("#search-results-table").show();
+                $("#search-results-table").show(); // display search results table
               }
             );
           });
@@ -268,7 +284,6 @@ $(document).ready(function() {
         })
       : "";
   }
-
 
   // function to fetch contacts from server and update table
   function fetchContacts() {
@@ -340,12 +355,38 @@ $(document).ready(function() {
   fetchContacts();
 
   $('#view-contacts-button').click(function() {$('#main-container').hide(); $('#all-contacts-table').show(); fetchContacts();});
-  $('#search-button').click(function() { $('#main-container').hide(); }).next('#search-results-table').show();
   $('#cancel-new-contact').click(function() {$('#new-contact-form').hide(); $('#main-container').show();});
   $('#cancel-edit-contact').click(function() {$('#edit-contact-form').hide(); $('#all-contacts-table').show();});
   $('#home-button').click(function() {$('#all-contacts-table').hide(); $('#main-container').show();});
   $("#search-results-home-button").click(function() {$('#search-results-table').hide(); $('#main-container').show();});
   $('#view-all-contacts-button').click(function() {$('#search-results-table').hide(); $('#all-contacts-table').show(); fetchContacts();});
+
+  $('#search-button').click(function() {
+    $('#main-container').hide();
+    $.get(
+      "http://localhost:3000/api/contacts?tags=" + encodeURI($('#search-form #search').val()),
+      function (response) {
+        const resultsTableBody = $("#search-results-table tbody");
+        resultsTableBody.empty();
+        response.forEach(function (contact) {
+          var row = $("<tr></tr>");
+          row.append($("<td></td>").text(contact.name));
+          row.append($("<td></td>").text(contact.phone));
+          row.append($("<td></td>").text(contact.email));
+          row.append($("<td></td>").text(contact.tags));
+          const updateButton = $("<button></button>")
+            .text("Update")
+            .click(function () {
+              showEditForm(contact.id);
+            });
+          row.append(updateButton);
+          resultsTableBody.append(row);
+        });
+        $("#all-contacts-table").hide();
+        $("#search-results-table").show();
+      }
+    );
+  });
 
   $('#new-contact-form form').submit(function(event) {
     event.preventDefault();
