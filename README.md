@@ -1,6 +1,6 @@
-### Contact Manager
+## Contact Manager app
 
-This is a Contact Manager app built as part of the Launch School 239 course.
+This is a Contact Manager web app built as part of the Launch School JS239 course.
 
 The app is built primarily in Javascript, jQuery, HTML, and CSS.
 
@@ -14,6 +14,11 @@ To run the application:
 4. Navigate to `http://localhost:3000/` in your browser
 
 Note: You can view the API's documentation by navigating to `http://localhost:3000/doc`
+
+### Features
+
+* This Contact Manager app allows for the creation, editing, and deletion of contacts. 
+* There is a search bar that allows for the user to search for a specific contact. You can search for a contact by any of the contact's info, such as searching for a contact by the contact's name, phone number, etc.
 
 ### Todos
 
