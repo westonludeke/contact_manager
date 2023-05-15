@@ -372,8 +372,8 @@ h2 {
 <script>
 
 $(document).ready(function() {
-  $('#new-contact-form, #all-contacts-table, #edit-contact-form, #search-results-table').hide();
-  $('#add-contact-button').click(() => $('#main-container').hide() && $('#new-contact-form').show());
+  $("#new-contact-form, #all-contacts-table, #edit-contact-form, #search-results-table").hide();
+  $("#add-contact-button").click(() => $("#main-container").hide() && $("#new-contact-form").show());
 
   function createTagLinks(tags) {
     return tags
@@ -384,9 +384,9 @@ $(document).ready(function() {
           link.click(function (event) {
             event.preventDefault();
             const searchTag = tag.trim();
-            console.log('searchTag: ', searchTag);
-            $('#search-input').val(searchTag); // add tag to search form
-            $('#main-container').hide(); // hide the main container
+            console.log("searchTag: ", searchTag);
+            $("#search-input").val(searchTag); // add tag to search form
+            $("#main-container").hide(); // hide the main container
             $.get(
               "http://localhost:3000/api/contacts?tags=" + encodeURI(searchTag),
               function (response) {
@@ -418,66 +418,66 @@ $(document).ready(function() {
 
   // function to fetch contacts from server and update table
   function fetchContacts() {
-    $.get('http://localhost:3000/api/contacts', function(response) {
+    $.get("http://localhost:3000/api/contacts", function(response) {
       // remove existing rows from table
-      $('#all-contacts-table tbody tr').remove();
+      $("#all-contacts-table tbody tr").remove();
 
       response.forEach(function(contact) {
-        var row = $('<tr></tr>');
-        $('<td></td>').text(contact.full_name).appendTo(row);
-        $('<td></td>').text(contact.phone_number).appendTo(row);
-        $('<td></td>').text(contact.email).appendTo(row);
+        var row = $("<tr></tr>");
+        $("<td></td>").text(contact.full_name).appendTo(row);
+        $("<td></td>").text(contact.phone_number).appendTo(row);
+        $("<td></td>").text(contact.email).appendTo(row);
 
-        var tagSpan = $('<span></span>');
+        var tagSpan = $("<span></span>");
         let tagLinks = createTagLinks(contact.tags);
         tagLinks.forEach(function(link, index) {
           if (index > 0) {
-            $('<span>, </span>').appendTo(tagSpan);
+            $("<span>, </span>").appendTo(tagSpan);
           }
           tagSpan.append(link);
         });
-        $('<td></td>').append(tagSpan).appendTo(row);
+        $("<td></td>").append(tagSpan).appendTo(row);
 
         // add edit and delete buttons to the Edit column
-        $('<td></td>').html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' + contact.id + '">Delete</button>').appendTo(row);
+        $("<td></td>").html('<button class="edit-contact" data-id="' + contact.id + '">Edit</button> <button class="delete-contact" data-id="' + contact.id + '">Delete</button>').appendTo(row);
 
-        $('#all-contacts-table tbody').append(row);
+        $("#all-contacts-table tbody").append(row);
       });
 
-      $('.delete-contact').click(function() {
-        var contactId = $(this).data('id');
+      $(".delete-contact").click(function() {
+        var contactId = $(this).data("id");
         $.ajax({
-          method: 'DELETE',
-          url: 'http://localhost:3000/api/contacts/' + contactId,
+          method: "DELETE",
+          url: "http://localhost:3000/api/contacts/" + contactId,
           context: this, // save reference to clicked element
           success: function(response) {
-            alert('Successfully deleted contact!');
+            alert("Successfully deleted contact!");
             $(this).closest('tr').remove();
           },
           error: function(xhr, status, error) {
-            alert('Error deleting contact :(');
-            console.log('Error:', error);
+            alert("Error deleting contact :(");
+            console.log("Error:", error);
           }
         });
       });
 
-      $('.edit-contact').click(function() {
-        var contactId = $(this).data('id');
-        $('#all-contacts-table').hide();
+      $(".edit-contact").click(function() {
+        var contactId = $(this).data("id");
+        $("#all-contacts-table").hide();
         
-        $.get('http://localhost:3000/api/contacts/' + contactId, function(response) {
-          $('#edit-contact-form #full-name').val(response.full_name);
-          $('#edit-contact-form #telephone-number').val(response.phone_number);
-          $('#edit-contact-form #email-address').val(response.email);
-          $('#edit-contact-form #tags').val(response.tags);
+        $.get("http://localhost:3000/api/contacts/" + contactId, function(response) {
+          $("#edit-contact-form #full-name").val(response.full_name);
+          $("#edit-contact-form #telephone-number").val(response.phone_number);
+          $("#edit-contact-form #email-address").val(response.email);
+          $("#edit-contact-form #tags").val(response.tags);
 
-          $('<input>').attr({
-            type: 'hidden',
-            name: 'id',
+          $("<input>").attr({
+            type: "hidden",
+            name: "id",
             value: contactId
-          }).appendTo('#edit-contact-form');
+          }).appendTo("#edit-contact-form");
           
-          $('#edit-contact-form').show();
+          $("#edit-contact-form").show();
         });
       });
     });
@@ -485,17 +485,17 @@ $(document).ready(function() {
 
   fetchContacts();
 
-  $('#view-contacts-button').click(function() {$('#main-container').hide(); $('#all-contacts-table').show(); fetchContacts();});
-  $('#cancel-new-contact').click(function() {$('#new-contact-form').hide(); $('#main-container').show();});
-  $('#cancel-edit-contact').click(function() {$('#edit-contact-form').hide(); $('#all-contacts-table').show();});
-  $('#home-button').click(function() {$('#all-contacts-table').hide(); $('#main-container').show();});
-  $("#search-results-home-button").click(function() {$('#search-results-table').hide(); $('#main-container').show();});
-  $('#view-all-contacts-button').click(function() {$('#search-results-table').hide(); $('#all-contacts-table').show(); fetchContacts();});
+  $("#view-contacts-button").click(function() {$("#main-container").hide(); $("#all-contacts-table").show(); fetchContacts();});
+  $("#cancel-new-contact").click(function() {$("#new-contact-form").hide(); $("#main-container").show();});
+  $("#cancel-edit-contact").click(function() {$("#edit-contact-form").hide(); $("#all-contacts-table").show();});
+  $("#home-button").click(function() {$("#all-contacts-table").hide(); $("#main-container").show();});
+  $("#search-results-home-button").click(function() {$("#search-results-table").hide(); $("#main-container").show();});
+  $("#view-all-contacts-button").click(function() {$("#search-results-table").hide(); $("#all-contacts-table").show(); fetchContacts();});
 
-  $('#search-button').click(function() {
-    $('#main-container').hide();
+  $("#search-button").click(function() {
+    $("#main-container").hide();
     $.get(
-      "http://localhost:3000/api/contacts?tags=" + encodeURI($('#search-form #search').val()),
+      "http://localhost:3000/api/contacts?tags=" + encodeURI($("#search-form #search").val()),
       function (response) {
         const resultsTableBody = $("#search-results-table tbody");
         resultsTableBody.empty();
@@ -519,113 +519,113 @@ $(document).ready(function() {
     );
   });
 
-  $('#new-contact-form form').submit(function(event) {
+  $("#new-contact-form form").submit(function(event) {
     event.preventDefault();
 
     var formData = {
-      full_name: $('#add-full-name').val(),
-      email: $('#add-email-address').val(),
-      phone_number: $('#add-telephone-number').val(),
-      tags: $('#add-tags').val()
+      full_name: $("#add-full-name").val(),
+      email: $("#add-email-address").val(),
+      phone_number: $("#add-telephone-number").val(),
+      tags: $("#add-tags").val()
     };
 
     $.ajax({
-      method: 'POST',
-      url: 'http://localhost:3000/api/contacts/',
+      method: "POST",
+      url: "http://localhost:3000/api/contacts/",
       data: formData,
       success: function(response) {
-        alert('Successfully added new contact!');
-        $('#new-contact-form').hide();
-        $('#main-container').show();
-        $('#new-contact-form form')[0].reset();
+        alert("Successfully added new contact!");
+        $("#new-contact-form").hide();
+        $("#main-container").show();
+        $("#new-contact-form form")[0].reset();
       },
       error: function(xhr, status, error) {
-        alert('Error adding new contact :(');
-        console.log('Error:', error);
+        alert("Error adding new contact :(");
+        console.log("Error:", error);
       }
     });
   });
 
-  $('#edit-contact-form form').submit(function(event) {
+  $("#edit-contact-form form").submit(function(event) {
     event.preventDefault(); 
-    var contactId = $('#edit-contact-form input[type=hidden]').val();
+    var contactId = $("#edit-contact-form input[type=hidden]").val();
 
     var formData = {
-      full_name: $('#edit-contact-form #full-name').val(),
-      email: $('#edit-contact-form #email-address').val(),
-      phone_number: $('#edit-contact-form #telephone-number').val(),
-      tags: $('#edit-contact-form #tags').val()
+      full_name: $("#edit-contact-form #full-name").val(),
+      email: $("#edit-contact-form #email-address").val(),
+      phone_number: $("#edit-contact-form #telephone-number").val(),
+      tags: $("#edit-contact-form #tags").val()
     };
 
     $.ajax({
-      method: 'PUT',
-      url: 'http://localhost:3000/api/contacts/' + contactId,
+      method: "PUT",
+      url: "http://localhost:3000/api/contacts/" + contactId,
       data: formData,
       success: function(response) {
-        alert('Successfully updated contact!');
-        $('#edit-contact-form input[name="id"]').remove();
-        $('#edit-contact-form').hide();
-        $('#all-contacts-table').show();
+        alert("Successfully updated contact!");
+        $("#edit-contact-form input[name='id']").remove();
+        $("#edit-contact-form").hide();
+        $("#all-contacts-table").show();
         fetchContacts();
       },
       error: function(xhr, status, error) {
-        alert('Error updating contact :(');
-        console.log('Error:', error);
+        alert("Error updating contact :(");
+        console.log("Error:", error);
       }
     });
   });
 
-  $('#search-form').submit(function(event) {
+  $("#search-form").submit(function(event) {
     event.preventDefault();
-    const searchTerm = $('#search-input').val().trim().toLowerCase();
+    const searchTerm = $("#search-input").val().trim().toLowerCase();
 
-    $.get('/api/contacts', function(response) {
-        const filteredContacts = response.filter(contact => ['full_name', 'email', 'phone_number', 'tags'].some(field => contact[field].toLowerCase().includes(searchTerm)));
+    $.get("/api/contacts", function(response) {
+        const filteredContacts = response.filter(contact => ["full_name", "email", "phone_number", "tags"].some(field => contact[field].toLowerCase().includes(searchTerm)));
 
-        $('#all-contacts-table').hide();
-        $('#search-results-table').show();
+        $("#all-contacts-table").hide();
+        $("#search-results-table").show();
 
-        const searchTableBody = $('#search-results-table tbody');
+        const searchTableBody = $("#search-results-table tbody");
         searchTableBody.empty();
 
         filteredContacts.forEach(contact => {
-            const row = $('<tr></tr>');
-            $('<td></td>').text(contact.full_name).appendTo(row);
-            $('<td></td>').text(contact.phone_number).appendTo(row);
-            $('<td></td>').text(contact.email).appendTo(row);
+            const row = $("<tr></tr>");
+            $("<td></td>").text(contact.full_name).appendTo(row);
+            $("<td></td>").text(contact.phone_number).appendTo(row);
+            $("<td></td>").text(contact.email).appendTo(row);
 
-            const tagSpan = $('<span></span>');
+            const tagSpan = $("<span></span>");
             createTagLinks(contact.tags).forEach((link, index) => {
-                if (index > 0) $('<span>, </span>').appendTo(tagSpan);
+                if (index > 0) $("<span>, </span>").appendTo(tagSpan);
                 tagSpan.append(link);
             });
-            $('<td></td>').append(tagSpan).appendTo(row);
+            $("<td></td>").append(tagSpan).appendTo(row);
 
-            $('<td></td>').html(`<button class="edit-contact" data-id="${contact.id}">Edit</button> <button class="delete-contact" data-id="${contact.id}">Delete</button>`).appendTo(row);
+            $("<td></td>").html(`<button class="edit-contact" data-id="${contact.id}">Edit</button> <button class="delete-contact" data-id="${contact.id}">Delete</button>`).appendTo(row);
 
             searchTableBody.append(row);
         });
     }).fail(jqXHR => console.log(`Error fetching contacts: ${jqXHR.statusText}`));
   });
 
-  $('.tag-link').on('click', function(event) {
+  $(".tag-link").on("click", function(event) {
     // Prevent the default behavior of following the link
     event.preventDefault();
 
     // Retrieve the tag name from the link's data attribute
-    var tagName = $(this).data('tag');
+    var tagName = $(this).data("tag");
 
     // Perform an AJAX request to retrieve the search results for the clicked tag
     $.ajax({
-      url: '/search',
-      method: 'GET',
+      url: "/search",
+      method: "GET",
       data: {
         tag: tagName
       },
       success: function(response) {
         // Update the table to display only the search results
-        $('#all-contacts-table tbody tr').remove();
-        $('#all-contacts-table tbody').append(response);
+        $("#all-contacts-table tbody tr").remove();
+        $("#all-contacts-table tbody").append(response);
       },
       error: function(error) {
         console.log(error);

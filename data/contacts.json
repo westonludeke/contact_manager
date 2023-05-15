@@ -14,7 +14,7 @@
     "tags": "TA, Launch School"
   },
   {
-    "full_name": "Notorious BIG",
+    "full_name": "Biggie Smalls",
     "phone_number": "777-555-5555",
     "email": "biggiesmalls@badboy.com",
     "tags": "brooklyn",
@@ -54,5 +54,12 @@
     "email": "j@rapalot.com",
     "tags": "rapalot",
     "id": 15
+  },
+  {
+    "full_name": "Paul Graham",
+    "phone_number": "555-555-5555",
+    "email": "pg@ycombinator.com",
+    "tags": "investor",
+    "id": 16
   }
 ]
