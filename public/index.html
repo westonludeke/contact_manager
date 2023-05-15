@@ -298,16 +298,16 @@ h2 {
     <h2>Add a New Contact:</h2>
     <form>
       <label for="full-name">Full Name:</label>
-      <input type="text" id="full-name" name="full-name">
+      <input type="text" id="add-full-name" name="full-name">
       <br><br>
       <label for="email-address">Email Address:</label>
-      <input type="email" id="email-address" name="email-address">
+      <input type="email" id="add-email-address" name="email-address">
       <br><br>
       <label for="telephone-number">Telephone Number:</label>
-      <input type="tel" id="telephone-number" name="telephone-number">
+      <input type="tel" id="add-telephone-number" name="telephone-number">
       <br><br>
       <label for="tags">Tags:</label>
-      <input type="text" id="tags" name="tags">
+      <input type="text" id="add-tags" name="tags">
       <br><br>
       <button type="submit">Submit</button>
       <button type="button" id="cancel-new-contact">Cancel</button>
@@ -523,10 +523,10 @@ $(document).ready(function() {
     event.preventDefault();
 
     var formData = {
-      full_name: $('#full-name').val(),
-      email: $('#email-address').val(),
-      phone_number: $('#telephone-number').val(),
-      tags: $('#tags').val()
+      full_name: $('#add-full-name').val(),
+      email: $('#add-email-address').val(),
+      phone_number: $('#add-telephone-number').val(),
+      tags: $('#add-tags').val()
     };
 
     $.ajax({

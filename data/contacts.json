@@ -1,12 +1,5 @@
 [
   {
-    "id": 1,
-    "full_name": "Weston Ludeke",
-    "email": "weston@example.com",
-    "phone_number": "713-555-5555",
-    "tags": "student,coder,houstonian"
-  },
-  {
     "id": 2,
     "full_name": "Victor Paolo Reyes",
     "email": "vpr@example.com",
@@ -21,10 +14,10 @@
     "tags": "TA, Launch School"
   },
   {
-    "full_name": "Biggie Smalls",
-    "phone_number": "555-555-5555",
-    "email": "biggie@badboy.com",
-    "tags": "musician",
+    "full_name": "Notorious BIG",
+    "phone_number": "777-555-5555",
+    "email": "biggiesmalls@badboy.com",
+    "tags": "brooklyn",
     "id": 10
   },
   {
@@ -47,5 +40,19 @@
     "email": "art@vandalayindustries.com",
     "tags": "architect",
     "id": 13
+  },
+  {
+    "full_name": "Daz Dillinger",
+    "phone_number": "213-555-5555",
+    "email": "daz@dpg.com",
+    "tags": "doggpound",
+    "id": 14
+  },
+  {
+    "full_name": "James Prince",
+    "phone_number": "713-555-5555",
+    "email": "j@rapalot.com",
+    "tags": "rapalot",
+    "id": 15
   }
 ]
