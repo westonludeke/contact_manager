@@ -370,7 +370,6 @@ h2 {
     <button type="button" id="view-all-contacts-button">View All Contacts</button>
   </div>
 <script>
-
 $(document).ready(function() {
   $("#new-contact-form, #all-contacts-table, #edit-contact-form, #search-results-table").hide();
   $("#add-contact-button").click(() => $("#main-container").hide() && $("#new-contact-form").show());
@@ -393,7 +392,7 @@ $(document).ready(function() {
                 const resultsTableBody = $("#search-results-table tbody");
                 resultsTableBody.empty();
                 response.forEach(function (contact) {
-                  var row = $("<tr></tr>");
+                  const row = $("<tr></tr>");
                   row.append($("<td></td>").text(contact.name));
                   row.append($("<td></td>").text(contact.phone));
                   row.append($("<td></td>").text(contact.email));
@@ -423,13 +422,13 @@ $(document).ready(function() {
       $("#all-contacts-table tbody tr").remove();
 
       response.forEach(function(contact) {
-        var row = $("<tr></tr>");
+        const row = $("<tr></tr>");
         $("<td></td>").text(contact.full_name).appendTo(row);
         $("<td></td>").text(contact.phone_number).appendTo(row);
         $("<td></td>").text(contact.email).appendTo(row);
 
-        var tagSpan = $("<span></span>");
-        let tagLinks = createTagLinks(contact.tags);
+        const tagSpan = $("<span></span>");
+        const tagLinks = createTagLinks(contact.tags);
         tagLinks.forEach(function(link, index) {
           if (index > 0) {
             $("<span>, </span>").appendTo(tagSpan);
@@ -445,7 +444,7 @@ $(document).ready(function() {
       });
 
       $(".delete-contact").click(function() {
-        var contactId = $(this).data("id");
+        const contactId = $(this).data("id");
         $.ajax({
           method: "DELETE",
           url: "http://localhost:3000/api/contacts/" + contactId,
@@ -462,7 +461,7 @@ $(document).ready(function() {
       });
 
       $(".edit-contact").click(function() {
-        var contactId = $(this).data("id");
+        const contactId = $(this).data("id");
         $("#all-contacts-table").hide();
         
         $.get("http://localhost:3000/api/contacts/" + contactId, function(response) {
@@ -500,7 +499,7 @@ $(document).ready(function() {
         const resultsTableBody = $("#search-results-table tbody");
         resultsTableBody.empty();
         response.forEach(function (contact) {
-          var row = $("<tr></tr>");
+          const row = $("<tr></tr>");
           row.append($("<td></td>").text(contact.name));
           row.append($("<td></td>").text(contact.phone));
           row.append($("<td></td>").text(contact.email));
@@ -522,7 +521,7 @@ $(document).ready(function() {
   $("#new-contact-form form").submit(function(event) {
     event.preventDefault();
 
-    var formData = {
+    const formData = {
       full_name: $("#add-full-name").val(),
       email: $("#add-email-address").val(),
       phone_number: $("#add-telephone-number").val(),
@@ -548,9 +547,9 @@ $(document).ready(function() {
 
   $("#edit-contact-form form").submit(function(event) {
     event.preventDefault(); 
-    var contactId = $("#edit-contact-form input[type=hidden]").val();
+    const contactId = $("#edit-contact-form input[type=hidden]").val();
 
-    var formData = {
+    const formData = {
       full_name: $("#edit-contact-form #full-name").val(),
       email: $("#edit-contact-form #email-address").val(),
       phone_number: $("#edit-contact-form #telephone-number").val(),
@@ -613,7 +612,7 @@ $(document).ready(function() {
     event.preventDefault();
 
     // Retrieve the tag name from the link's data attribute
-    var tagName = $(this).data("tag");
+    const tagName = $(this).data("tag");
 
     // Perform an AJAX request to retrieve the search results for the clicked tag
     $.ajax({
@@ -632,8 +631,8 @@ $(document).ready(function() {
       }
     });
   });
-
 });
+
 </script>
 </body>
 </html>

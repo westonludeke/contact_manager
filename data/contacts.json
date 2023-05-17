@@ -17,7 +17,7 @@
     "full_name": "Biggie Smalls",
     "phone_number": "777-555-5555",
     "email": "biggiesmalls@badboy.com",
-    "tags": "brooklyn",
+    "tags": "brooklyn, musician",
     "id": 10
   },
   {
@@ -45,14 +45,14 @@
     "full_name": "Daz Dillinger",
     "phone_number": "213-555-5555",
     "email": "daz@dpg.com",
-    "tags": "doggpound",
+    "tags": "doggpound, dpg, musician, los angeles",
     "id": 14
   },
   {
     "full_name": "James Prince",
     "phone_number": "713-555-5555",
     "email": "j@rapalot.com",
-    "tags": "rapalot",
+    "tags": "rap-a-lot, houston",
     "id": 15
   },
   {
@@ -61,5 +61,12 @@
     "email": "pg@ycombinator.com",
     "tags": "investor",
     "id": 16
+  },
+  {
+    "full_name": "Earl Stevens",
+    "phone_number": "650-555-5555",
+    "email": "e40@sicwidit.com",
+    "tags": "bay area, oakland, vallejo, musician, entrepreneur",
+    "id": 17
   }
 ]
