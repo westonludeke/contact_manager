@@ -415,6 +415,23 @@ $(document).ready(function() {
       : "";
   }
 
+  // Function to validate phone number format
+  function validatePhoneNumber(phoneNumber) {
+    const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+    return phoneRegex.test(phoneNumber);
+  }
+
+  // Function to show an error message
+  function showError(element, message) {
+    const errorElement = $('<div class="error"></div>').text(message);
+    element.after(errorElement);
+  }
+
+  // Function to remove error messages
+  function clearErrors() {
+    $('.error').remove();
+  }
+
   // function to fetch contacts from server and update table
   function fetchContacts() {
     $.get("http://localhost:3000/api/contacts", function(response) {
@@ -521,11 +538,24 @@ $(document).ready(function() {
   $("#new-contact-form form").submit(function(event) {
     event.preventDefault();
 
+    const fullName = $("#add-full-name").val();
+    const emailAddress = $("#add-email-address").val();
+    const phoneNumber = $("#add-telephone-number").val();
+    const tags = $("#add-tags").val();
+
+    clearErrors();
+
+    // Validate phone number format
+    if (!validatePhoneNumber(phoneNumber)) {
+      showError($("#add-telephone-number"), "Phone number must be in xxx-xxx-xxxx format.");
+      return;
+    }
+
     const formData = {
-      full_name: $("#add-full-name").val(),
-      email: $("#add-email-address").val(),
-      phone_number: $("#add-telephone-number").val(),
-      tags: $("#add-tags").val()
+      full_name: fullName,
+      email: emailAddress,
+      phone_number: phoneNumber,
+      tags: tags
     };
 
     $.ajax({
@@ -549,11 +579,24 @@ $(document).ready(function() {
     event.preventDefault(); 
     const contactId = $("#edit-contact-form input[type=hidden]").val();
 
+    const fullName = $("#edit-contact-form #full-name").val();
+    const emailAddress = $("#edit-contact-form #email-address").val();
+    const phoneNumber = $("#edit-contact-form #telephone-number").val();
+    const tags = $("#edit-contact-form #tags").val();
+
+    clearErrors();
+
+    // Validate phone number format
+    if (!validatePhoneNumber(phoneNumber)) {
+      showError($("#edit-contact-form #telephone-number"), "Phone number must be in xxx-xxx-xxxx format.");
+      return;
+    }
+
     const formData = {
-      full_name: $("#edit-contact-form #full-name").val(),
-      email: $("#edit-contact-form #email-address").val(),
-      phone_number: $("#edit-contact-form #telephone-number").val(),
-      tags: $("#edit-contact-form #tags").val()
+      full_name: fullName,
+      email: emailAddress,
+      phone_number: phoneNumber,
+      tags: tags
     };
 
     $.ajax({
@@ -611,28 +654,16 @@ $(document).ready(function() {
     // Prevent the default behavior of following the link
     event.preventDefault();
 
-    // Retrieve the tag name from the link's data attribute
-    const tagName = $(this).data("tag");
+    // Retrieve the tag name from the clicked link
+    const tag = $(this).text().trim();
 
-    // Perform an AJAX request to retrieve the search results for the clicked tag
-    $.ajax({
-      url: "/search",
-      method: "GET",
-      data: {
-        tag: tagName
-      },
-      success: function(response) {
-        // Update the table to display only the search results
-        $("#all-contacts-table tbody tr").remove();
-        $("#all-contacts-table tbody").append(response);
-      },
-      error: function(error) {
-        console.log(error);
-      }
-    });
+    // Update the search input field with the tag
+    $("#search-input").val(tag);
+
+    // Trigger a search with the selected tag
+    $("#search-button").click();
   });
 });
-
 </script>
 </body>
 </html>

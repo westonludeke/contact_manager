@@ -3,15 +3,8 @@
     "id": 2,
     "full_name": "Victor Paolo Reyes",
     "email": "vpr@example.com",
-    "phone_number": "09876543210",
+    "phone_number": "098-765-4321",
     "tags": "ta,launch school"
-  },
-  {
-    "id": 3,
-    "full_name": "Pete Hanson",
-    "email": "pete@launchschool.com",
-    "phone_number": "54321098761",
-    "tags": "TA, Launch School"
   },
   {
     "full_name": "Biggie Smalls",
@@ -68,5 +61,19 @@
     "email": "e40@sicwidit.com",
     "tags": "bay area, oakland, vallejo, musician, entrepreneur",
     "id": 17
+  },
+  {
+    "full_name": "Snoop Dogg",
+    "phone_number": "213-555-5555",
+    "email": "snoop@deathrowrecords.com",
+    "tags": "long beach, musician",
+    "id": 18
+  },
+  {
+    "full_name": "Method Man",
+    "phone_number": "212-555-5555",
+    "email": "method@wutang.com",
+    "tags": "wutang",
+    "id": 19
   }
 ]
